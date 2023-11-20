@@ -5,6 +5,7 @@ from middleware.http_error import Conflict, Unauthorized, Unprocessable, http_er
 from core.dependencies.authentication import authentication_dependency
 from core.routes import api_router as authenticated_router
 from unauth_routes import api_router as unauthenticated_router
+from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
 
@@ -28,9 +29,17 @@ app.add_exception_handler(Unauthorized, http_error_handler)
 app.add_exception_handler(Conflict, http_error_handler)
 app.add_exception_handler(Unprocessable, http_error_handler)
 
+origins = ["*"]
 
 # middleware
-# app.middleware('http')(catch_exceptions_middleware)
+app.middleware('http')(catch_exceptions_middleware)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 app.include_router(
