@@ -32,7 +32,7 @@ app.add_exception_handler(Unprocessable, http_error_handler)
 origins = ["*"]
 
 # middleware
-app.middleware('http')(catch_exceptions_middleware)
+# app.middleware('http')(catch_exceptions_middleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

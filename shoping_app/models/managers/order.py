@@ -4,13 +4,14 @@ db = conn['Orders']
 
 
 class OrdersManager():
-    async def get_order_history(self):
+    async def get_order_history(self, user_id):
 
         order_history = []
-        orders = db.find()
+        orders = db.find({'user_id': user_id})
 
         for order in orders:
             order.pop('_id')
+            order.pop('user_id')
             order_history.append(order)
 
         return order_history
