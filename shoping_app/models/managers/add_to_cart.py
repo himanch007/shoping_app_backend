@@ -40,3 +40,9 @@ class AddToCartManager:
             products_in_cart.append(product)
 
         return products_in_cart
+
+    async def remove_products_from_cart(self, user_id):
+
+        filter_query = {"user_id": user_id}
+
+        result = db.delete_many(filter_query)
