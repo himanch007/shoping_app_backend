@@ -10,7 +10,8 @@ class AddToCartManager:
     async def add_product_to_cart(self, name: str, user_id):
 
         product = await Products.Model.objects.find_product(name)
-        if not db.find_one({"name": name}):
+        product.pop('_id')
+        if not db.find_one({"name": name, "user_id": user_id}):
             product['user_id'] = user_id
             product['quantity'] = 1
             db.insert_one(product)
@@ -41,8 +42,22 @@ class AddToCartManager:
 
         return products_in_cart
 
-    async def remove_products_from_cart(self, user_id):
+    async def remove_product_from_cart(self, name, user_id):
 
-        filter_query = {"user_id": user_id}
+        filter_query = {"name": name,"user_id": user_id}
 
         result = db.delete_many(filter_query)
+
+    @validate_arguments
+    async def decrement_product(self, name: str, user_id):
+
+        filter_query = {"name": name, "user_id": user_id}
+
+        update_query = {"$inc": {"quantity": -1}}
+        db.update_one(filter_query, update_query)
+
+        product = db.find_one(filter_query)
+
+        for doc in product:
+            if(doc['quantity'] <= 0):
+                db.delete_one(filter_query)

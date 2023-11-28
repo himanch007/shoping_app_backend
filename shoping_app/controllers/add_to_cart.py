@@ -33,3 +33,29 @@ async def add_to_cart(request: Request, auth_token: str = Header(alias="authoriz
     return {
         "message": "Products removed"
     }
+
+
+@router.delete("/remove-product", status_code=200)
+async def delete_product(name: str, request: Request, auth_token: str = Header(alias="authorization")):
+
+    user_data = request.user_data
+    user_id = user_data.pop('_id')
+
+    await AddToCart.Model.objects.remove_product_from_cart(name, user_id)
+    
+    return {
+        "message": "Products removed"
+    }
+
+
+@router.delete("/decrement-product", status_code=200)
+async def delete_product(name: str, request: Request, auth_token: str = Header(alias="authorization")):
+
+    user_data = request.user_data
+    user_id = user_data.pop('_id')
+
+    await AddToCart.Model.objects.decrement_product(name, user_id)
+    
+    return {
+        "message": "Products removed"
+    }
