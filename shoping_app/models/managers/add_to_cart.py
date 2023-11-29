@@ -59,5 +59,6 @@ class AddToCartManager:
         product = db.find_one(filter_query)
 
         for doc in product:
+            print(doc)
             if(doc['quantity'] <= 0):
                 db.delete_one(filter_query)
