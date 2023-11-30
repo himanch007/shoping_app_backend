@@ -60,3 +60,9 @@ class AddToCartManager:
         
         if(product['quantity'] <= 0):
             db.delete_one(filter_query)
+
+    async def remove_products_from_cart(self, user_id):
+
+        filter_query = {"user_id": user_id}
+
+        result = db.delete_many(filter_query)
