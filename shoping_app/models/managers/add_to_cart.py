@@ -17,7 +17,7 @@ class AddToCartManager:
             db.insert_one(product)
         else:
             update_query = {"$inc": {"quantity": 1}}
-            db.update_one({"name": name}, update_query)
+            db.update_one({"name": name, "user_id": user_id}, update_query)
 
         products = db.find({"user_id": user_id})
 
