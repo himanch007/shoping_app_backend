@@ -25,6 +25,11 @@ class WishlistManager:
         return products_in_cart
     
     @validate_arguments
+    async def remove_product_from_wishlist(self, name: str, user_id):
+
+        db.delete_one({'name': name, 'user_id': user_id})
+    
+    @validate_arguments
     async def products_in_wishlist(self, user_id):
         
         products = db.find({"user_id": user_id})
