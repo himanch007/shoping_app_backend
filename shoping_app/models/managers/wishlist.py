@@ -9,7 +9,7 @@ class WishlistManager:
     @validate_arguments
     async def add_product_to_wishlist(self, name: str, user_id):
 
-        if not db.find_one({"name": name}):
+        if not db.find_one({"name": name, "user_id": user_id}):
             product = await Products.Model.objects.find_product(name)
             product['user_id'] = user_id
             db.insert_one(product)
