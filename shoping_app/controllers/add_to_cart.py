@@ -36,12 +36,13 @@ async def add_to_cart(request: Request, auth_token: str = Header(alias="authoriz
 
 
 @router.delete("/remove-product", status_code=200)
-async def delete_product(name: str, request: Request, auth_token: str = Header(alias="authorization")):
+async def delete_product(request_body: AddToCartRequestFormat, request: Request, auth_token: str = Header(alias="authorization")):
 
+    request_data = request_body.dict()
     user_data = request.user_data
     user_id = user_data.pop('_id')
 
-    await AddToCart.Model.objects.remove_product_from_cart(name, user_id)
+    await AddToCart.Model.objects.remove_product_from_cart(request_data['name'], user_id)
     
     return {
         "message": "Products removed"
