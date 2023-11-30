@@ -28,8 +28,8 @@ async def delete_from_wishlist(request_body: WishlistRequestFormat, request: Req
     user_data = request.user_data
     user_id = user_data.pop('_id')
 
-    products_in_cart = await Wishlist.Model.objects.remove_product_from_wishlist(request_data['name'], user_id)
+    await Wishlist.Model.objects.remove_product_from_wishlist(request_data['name'], user_id)
     
     return {
-        "products": products_in_cart
+        "products": "Product removed from wishlist"
     }
