@@ -3,7 +3,6 @@
 ## Project Setup
 
 ### 1. Clone the Repository
-```bash
 git clone https://github.com/himanch007/shoping_app_backend.git
 cd shopping_app_backend
 
